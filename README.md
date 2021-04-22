@@ -35,7 +35,7 @@
 ## feature
 ### circuit breaker
 - resilience4j 설정으로 실패율, 지연율을 설정에 따라 계산하여 써킷을 관리
-  - [*설정: ResilienceConfiguration](https://github.com/krrrr-b/spring-webflux-skeleton/blob/master/internal-api/src/main/kotlin/com/skeleton/webflux/internal/api/config/resilience/ResilienceConfiguration.kt)
-  - [*알림 설정: CustomResilienceRegistryEventConsumer](https://github.com/krrrr-b/spring-webflux-skeleton/blob/master/internal-api/src/main/kotlin/com/skeleton/webflux/internal/api/config/resilience/CustomResilienceRegistryEventConsumer.kt)
+  - [*설정: ResilienceConfiguration](https://github.com/krrrr-b/fraud-detect-system/blob/master/internal-api/src/main/kotlin/com/skeleton/webflux/internal/api/config/resilience/ResilienceConfiguration.kt)
+  - [*알림 설정: CustomResilienceRegistryEventConsumer](https://github.com/krrrr-b/fraud-detect-system/blob/master/internal-api/src/main/kotlin/com/skeleton/webflux/internal/api/config/resilience/CustomResilienceRegistryEventConsumer.kt)
 - default resilience 설정이 있으며 msa 시스템, 인프라에 따라 구분해 놓음
 

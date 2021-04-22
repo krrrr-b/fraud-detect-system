@@ -12,10 +12,12 @@ val junitJupiterVersion: String by project
 val resilience4jVersion: String by project
 
 dependencies {
-    api(project(":core:common"))
     api(project(":core:common-api"))
-    api(project(":client:unknown1-client"))
-    api(project(":client:unknown2-client"))
+    api(project(":data:data-mongo"))
+    api(project(":data:data-redis"))
+
+//    api(project(":client:unknown1-client"))
+//    api(project(":client:unknown2-client"))
 
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.springframework.boot:spring-boot-starter-webflux")

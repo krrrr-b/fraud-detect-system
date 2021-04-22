@@ -13,6 +13,12 @@ const val REQUEST_PATH_CIRCUIT_MANAGEMENT = "/circuit"
 class CircuitManagementController(
     @Qualifier(ResilienceConfiguration.COMMON_CIRCUIT_BREAKER)
     private val commonBreaker: CircuitBreaker,
+
+    @Qualifier(ResilienceConfiguration.REDIS_CIRCUIT_BREAKER)
+    private val redisCircuitBreaker: CircuitBreaker,
+
+    @Qualifier(ResilienceConfiguration.MONGO_CIRCUIT_BREAKER)
+    private val mongoCircuitBreaker: CircuitBreaker,
 ) {
     @GetMapping(REQUEST_PATH_CIRCUIT_MANAGEMENT)
     fun getCircuitState(
@@ -20,6 +26,8 @@ class CircuitManagementController(
     ): CircuitBreaker {
         return when (circuitType) {
             ResilienceCircuit.COMMON -> commonBreaker
+            ResilienceCircuit.REDIS -> redisCircuitBreaker
+            ResilienceCircuit.MONGO -> mongoCircuitBreaker
             else -> throw IllegalArgumentException()
         }
     }
@@ -31,6 +39,8 @@ class CircuitManagementController(
     ): CircuitBreaker {
         val circuit = when (circuitType) {
             ResilienceCircuit.COMMON -> commonBreaker
+            ResilienceCircuit.REDIS -> redisCircuitBreaker
+            ResilienceCircuit.MONGO -> mongoCircuitBreaker
             else -> throw IllegalArgumentException()
         }
 

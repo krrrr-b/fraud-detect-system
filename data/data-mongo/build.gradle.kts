@@ -17,7 +17,7 @@ val springDataMongoDbReactiveVersion: String by project
 val jodaTimeVersion: String by project
 
 dependencies {
-    api(project(":data:common"))
+//    implementation(project(":data:common"))
 
     api("org.mongodb:mongodb-driver-async:$mongoDbAsyncDriverVersion")
     api("jakarta.platform:jakarta.jakartaee-api:$jakartaVersion")

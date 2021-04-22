@@ -9,6 +9,8 @@ import io.github.resilience4j.circuitbreaker.CircuitBreakerRegistry
 import io.github.resilience4j.core.registry.RegistryEventConsumer
 import io.github.resilience4j.retry.RetryConfig
 import io.github.resilience4j.retry.RetryRegistry
+import io.lettuce.core.RedisCommandTimeoutException
+import io.lettuce.core.RedisConnectionException
 import io.micrometer.core.instrument.MeterRegistry
 import io.netty.handler.timeout.TimeoutException
 import org.springframework.beans.factory.annotation.Qualifier
@@ -26,6 +28,8 @@ class ResilienceConfiguration {
          * @see ResilienceCircuit
          */
         const val COMMON_CIRCUIT_BREAKER = "commonCircuitBreaker"
+        const val REDIS_CIRCUIT_BREAKER = "redisCircuitBreaker"
+        const val MONGO_CIRCUIT_BREAKER = "mongoCircuitBreaker"
         const val DEFAULT_RETRY = "defaultRetry"
     }
 
@@ -77,12 +81,38 @@ class ResilienceConfiguration {
     }
 
     @Bean(COMMON_CIRCUIT_BREAKER)
-    fun commonBreaker(
+    fun commonCircuitBreaker(
         registry: CircuitBreakerRegistry,
     ): CircuitBreaker {
         return registry.circuitBreaker(
             ResilienceCircuit.COMMON.circuitName,
             CircuitBreakerConfig.from(registry.defaultConfig)
+                .build()
+        )
+    }
+
+    @Bean(REDIS_CIRCUIT_BREAKER)
+    fun redisCircuitBreaker(
+        registry: CircuitBreakerRegistry,
+    ): CircuitBreaker {
+        return registry.circuitBreaker(
+            ResilienceCircuit.REDIS.circuitName,
+            CircuitBreakerConfig.from(registry.defaultConfig)
+                .slowCallDurationThreshold(ResilienceCircuit.REDIS.slowCallOfDuration)
+                .recordExceptions(RedisConnectionException::class.java, RedisCommandTimeoutException::class.java)
+                .ignoreExceptions(NotFoundException::class.java)
+                .build()
+        )
+    }
+
+    @Bean(MONGO_CIRCUIT_BREAKER)
+    fun mongoCircuitBreaker(
+        registry: CircuitBreakerRegistry,
+    ): CircuitBreaker {
+        return registry.circuitBreaker(
+            ResilienceCircuit.MONGO.circuitName,
+            CircuitBreakerConfig.from(registry.defaultConfig)
+                .slowCallDurationThreshold(ResilienceCircuit.MONGO.slowCallOfDuration)
                 .build()
         )
     }

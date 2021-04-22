@@ -9,8 +9,7 @@ tasks.getByName<Jar>("jar") {
 }
 
 dependencies {
-    api(project(":data:common"))
-    api(project(":core:common-api"))
+//    implementation(project(":data:common"))
 
     api("org.springframework.boot:spring-boot-starter-data-redis-reactive")
 }

@@ -16,4 +16,6 @@ enum class ResilienceCircuit(
     val waitDurationInOpenStateMillis: Long = 60000L,
 ) {
     COMMON,
+    REDIS("redisCircuitBreaker", Duration.ofMillis(2000L)),
+    MONGO("mongoCircuitBreaker", Duration.ofMillis(3000L)),
 }
